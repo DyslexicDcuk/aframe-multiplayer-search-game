@@ -25,7 +25,7 @@ window.addEventListener('load', () => {
     })
   }
 
-  const socket = window.io('http://192.168.0.15:3000?playerId=' + PLAYER_ID)
+  const socket = window.io('http://localhost:3000?playerId=' + PLAYER_ID)
 
   socket.on('nodes', (nodes) => {
     clearChildElements(nodesEl)
