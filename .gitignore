@@ -1,0 +1,12 @@
+#Client
+/client/node_modules
+/client/build
+/client/*.log
+
+#Server
+/server/node_modules
+/server/*.log
+
+#System Files
+.DS_Store
+Thumbs.db

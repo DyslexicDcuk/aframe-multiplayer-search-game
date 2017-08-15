@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Hello, WebVR! - A-Frame</title>
+
+  <meta name="description" content="Hello, WebVR! - A-Frame">
+
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="build/style.css" />
+
+  <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+</head>
+
+<body>
+  <script src="build/bundle.js"></script>
+
+<a-scene>
+  <a-assets>
+    <img id="groundTexture" crossorigin="anonymous" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+    <img id="skyTexture" crossorigin="anonymous" src="https://cdn.aframe.io/a-painter/images/sky.jpg">
+
+    <a-mixin id="node" geometry="primitive: sphere; radius: 0.3" material="color: green"></a-mixin>
+    <a-mixin id="ground" #src="groundTexture" geometry="primitive: cylinder; radius: 30; height: 0.1"></a-mixin>
+  </a-assets>
+
+  <a-entity id="player">
+    <a-entity id="camera" position="0 1.8 0" camera look-controls wasd-controls>
+      <a-entity
+        position="0 0 -0.01"
+        geometry="primitive: ring; radiusOuter: 0.0002; radiusInner: 0.0001; segmentsTheta: 32"
+        material="color: cyan; shader: flat"
+        cursor="fuse: false">
+        <a-animation
+          begin="click"
+          easing="ease-in"
+          attribute="scale"
+          fill="backwards"
+          from="0.1 0.1 0.1"
+          to="1 1 1"
+          dur="150"></a-animation>
+      </a-entity>
+    </a-entity>
+    </a-sphere>
+  </a-entity>
+
+  <a-box position="0 0 -10"></a-box>
+  <a-sphere position="0 0 -12" color="blue"></a-sphere>
+
+  <a-entity id="nodes"></a-entity>
+  <a-entity id="players"></a-entity>
+
+  <a-cylinder id="ground" src="https://cdn.aframe.io/a-painter/images/floor.jpg" radius="32" height="0.1"></a-cylinder>
+  <a-sky id="background" src="#skyTexture" theta-length="90" radius="30"></a-sky>
+
+</a-scene>
+
+
+</body>
+
+</html>
