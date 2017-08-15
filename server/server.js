@@ -13,6 +13,8 @@ store$.pluck('players').distinctUntilChanged()
   .subscribe((s) => io.emit('players', s))
 store$.pluck('nodes').distinctUntilChanged()
   .subscribe((s) => io.emit('nodes', s))
+store$.pluck('objectives').distinctUntilChanged()
+  .subscribe((s) => io.emit('objectives', s))
 
 io.on('connection', (socket) => {
   const PLAYER_ID = socket.handshake.query.playerId
@@ -36,8 +38,14 @@ io.on('connection', (socket) => {
     })
   })
 
+  socket.on('clickObjective', (data) => {
+    dispatch({
+      type: playerActions.CLICK_OBJECTIVE,
+      payload: data
+    })
+  })
+
   socket.on('disconnect', () => {
-    console.log(PLAYER_ID)
     dispatch({
       type: playerActions.DISCONNECT,
       payload: PLAYER_ID

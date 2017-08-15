@@ -13,14 +13,19 @@ window.addEventListener('load', () => {
 
   const nodesEl = sceneEl.querySelector('#nodes')
   const playersEl = sceneEl.querySelector('#players')
+  const objectivesEl = sceneEl.querySelector('#objectives')
+  const currentObjectiveEl = sceneEl.querySelector('#currentObjective')
 
   window.onTeleport = (e) => {
-    console.log('playerMove', {
+    socket.emit('playerMove', {
       positionId: parseInt(e.target.getAttribute('positionId'), 10),
       playerId: PLAYER_ID
     })
-    socket.emit('playerMove', {
-      positionId: parseInt(e.target.getAttribute('positionId'), 10),
+  }
+
+  window.onObjectiveClick = (e) => {
+    socket.emit('clickObjective', {
+      objectiveId: parseInt(e.target.getAttribute('objectiveId'), 10),
       playerId: PLAYER_ID
     })
   }
@@ -38,11 +43,24 @@ window.addEventListener('load', () => {
     clearChildElements(playersEl)
     players.forEach((p) => {
       if (p.id === PLAYER_ID) {
+        if (p.nextObjective === 3) {
+          socket.disconnect()
+          window.location = 'http://imgur.com/gallery/Gk9Q5sK'
+        }
         window.AFRAME.utils.entity
           .setComponentProperty(playerEl, 'position', p.position)
+        clearChildElements(currentObjectiveEl)
+        renderCurrentObjective(currentObjectiveEl, p.objectives[p.nextObjective])
       } else {
         renderEnemyPlayer(playersEl, p)
       }
+    })
+  })
+
+  socket.on('objectives', (objectives) => {
+    clearChildElements(objectivesEl)
+    objectives.forEach((objective) => {
+      renderObjective(objectivesEl, objective)
     })
   })
 
@@ -123,4 +141,33 @@ function renderEnemyPlayer (playersEl, player) {
   body.appendChild(head)
   oponent.appendChild(body)
   playersEl.appendChild(oponent)
+}
+
+function renderObjective (objectivesEl, objective) {
+  const newObjective = document.createElement(objective.element)
+
+  const objectiveProperties = {
+    position: objective.position,
+    color: objective.color,
+    'change-color-on-hover': 'color: magenta',
+    objectiveId: objective.id
+  }
+
+  Object.keys(objectiveProperties).forEach((key) => {
+    window.AFRAME.utils.entity
+      .setComponentProperty(newObjective, key, objectiveProperties[key])
+  })
+
+  newObjective.addEventListener('click', (e) => window.onObjectiveClick(e))
+
+  objectivesEl.appendChild(newObjective)
+}
+
+function renderCurrentObjective (currentObjectiveEl, objective) {
+  const newCurrentObjective = document.createElement(objective.element)
+
+  window.AFRAME.utils.entity
+    .setComponentProperty(newCurrentObjective, 'color', objective.color)
+
+  currentObjectiveEl.appendChild(newCurrentObjective)
 }

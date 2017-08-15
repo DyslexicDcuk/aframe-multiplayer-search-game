@@ -2,10 +2,12 @@
 
 const { playerActions } = require('./actions')
 const { NODE_POSITIONS } = require('../assets/nodes')
+const { OBJECTIVES } = require('../assets/objectives')
 
 const initialState = {
   players: [],
-  nodes: [ ...NODE_POSITIONS ]
+  nodes: [ ...NODE_POSITIONS ],
+  objectives: [ ...OBJECTIVES ]
 }
 
 const mainReducer = function (initState, actions$) {
@@ -13,12 +15,20 @@ const mainReducer = function (initState, actions$) {
     let isNewPlayer
     let nodePositionId
     let oldNodePositionId
+    let arr
 
     switch (action.type) {
       case playerActions.CREATE:
         isNewPlayer = !state.players.find((p) => p.id === action.payload)
         const availableNodes = state.nodes.filter((n) => !n.isDisabled).map((n) => n.id)
         nodePositionId = availableNodes[Math.floor(Math.random() * availableNodes.length)]
+
+        arr = []
+        while (arr.length < 3) {
+          var randomnumber = Math.ceil(Math.random() * state.objectives.length)
+          if (arr.indexOf(randomnumber) > -1) continue
+          arr[arr.length] = randomnumber
+        }
 
         return Object.assign({}, state, {
           players: isNewPlayer
@@ -27,7 +37,8 @@ const mainReducer = function (initState, actions$) {
               positionId: nodePositionId,
               position: state.nodes[nodePositionId].position,
               points: 0,
-              objectives: []
+              objectives: arr.map((i) => state.objectives[i]),
+              nextObjective: 0
             })
             : state.players.map((p) => p.id === action.payload
               ? Object.assign({}, p, {
@@ -39,12 +50,12 @@ const mainReducer = function (initState, actions$) {
           nodes: state.nodes.map((n) => n.id === nodePositionId
             ? Object.assign({}, n, { isDisabled: true })
             : n
-          )
+          ),
+          objectives: [ ...state.objectives ]
         })
 
       case playerActions.DISCONNECT:
         nodePositionId = state.players.find((p) => p.id === action.payload).positionId
-        console.log(nodePositionId)
         return Object.assign({}, state, {
           players: state.players.map((p) => p.id === action.payload
             ? Object.assign({}, p, { position: { x: 0, y: -100, z: 0 } })
@@ -57,8 +68,6 @@ const mainReducer = function (initState, actions$) {
         })
 
       case playerActions.MOVE:
-        console.log(state.players)
-        console.log(state.players.find((p) => p.id === action.payload.playerId))
         oldNodePositionId = state.players.find((p) => p.id === action.payload.playerId).positionId
 
         return Object.assign({}, state, {
@@ -86,6 +95,19 @@ const mainReducer = function (initState, actions$) {
             ? Object.assign({}, p, { rotation: action.payload.rotation })
             : p
           )
+        })
+
+      case playerActions.CLICK_OBJECTIVE:
+        return Object.assign({}, state, {
+          players: state.players.map((p) => {
+            if (p.id === action.payload.playerId && p.objectives[p.nextObjective].id === action.payload.objectiveId) {
+              return Object.assign({}, p, {
+                nextObjective: p.nextObjective + 1
+              })
+            } else {
+              return p
+            }
+          })
         })
 
       default:
