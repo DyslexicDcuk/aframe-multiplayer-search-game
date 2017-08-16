@@ -5,6 +5,7 @@ require('./components/index')
 const { PLAYER_ID } = require('./utils/playerId')
 
 const { clearChildElements } = require('./utils/clear-child-elements')
+const { animateObjective } = require('./utils/animate-objective')
 const renderFunctions = require('./render-functions/index')
 
 window.addEventListener('load', () => {
@@ -22,8 +23,8 @@ window.addEventListener('load', () => {
 
   socket.on('nodes', (nodes) => {
     clearChildElements(nodesEl)
-    nodes.forEach((node, i) => {
-      if (!node.isDisabled) { renderFunctions.renderNode(nodesEl, node, i, socket, PLAYER_ID) }
+    nodes.forEach((node) => {
+      if (!node.isDisabled) { renderFunctions.renderNode(nodesEl, node, socket, PLAYER_ID) }
     })
   })
 
@@ -31,14 +32,23 @@ window.addEventListener('load', () => {
     clearChildElements(playersEl)
     players.forEach((p) => {
       if (p.id === PLAYER_ID) {
-        // if (p.nextObjective === 3) {
-        //   socket.disconnect()
-        //   window.location = 'http://imgur.com/gallery/Gk9Q5sK'
-        // }
-        window.AFRAME.utils.entity
-          .setComponentProperty(playerEl, 'position', p.position)
-        clearChildElements(currentObjectiveEl)
-        renderFunctions.renderCurrentObjective(currentObjectiveEl, p.objectives[p.nextObjective])
+        const isNewPosition = p.position
+          ? JSON.stringify(p.position.coordinates) !== JSON.stringify(playerEl.getAttribute('position'))
+          : false
+        if (isNewPosition) {
+          window.AFRAME.utils.entity
+            .setComponentProperty(playerEl, 'position', p.position.coordinates)
+        }
+
+        const isNewCurrentObjective = !currentObjectiveEl.firstChild ||
+          p.objectives[p.nextObjective].id !== parseInt(currentObjectiveEl.firstChild.getAttribute('objectiveId'), 10)
+        if (isNewCurrentObjective) {
+          if (currentObjectiveEl.firstChild) {
+            animateObjective(p, objectivesEl)
+            clearChildElements(currentObjectiveEl)
+          }
+          renderFunctions.renderCurrentObjective(currentObjectiveEl, p.objectives[p.nextObjective])
+        }
       } else {
         renderFunctions.renderEnemyPlayer(playersEl, p)
       }

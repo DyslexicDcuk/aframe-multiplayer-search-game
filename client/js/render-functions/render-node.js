@@ -1,13 +1,13 @@
 const { onPlayerMove } = require('../player-actions')
 
-export const renderNode = (nodesEl, node, i, socket, PLAYER_ID) => {
+export const renderNode = (nodesEl, node, socket, PLAYER_ID) => {
   const newNode = document.createElement('a-entity')
 
   const nodeProperties = {
     mixin: 'node',
-    position: `${node.x} ${node.y} ${node.z}`,
+    position: node.coordinates,
     'change-color-on-hover': 'color: magenta',
-    positionId: i
+    positionId: node.id
   }
 
   Object.keys(nodeProperties).forEach((key) => {

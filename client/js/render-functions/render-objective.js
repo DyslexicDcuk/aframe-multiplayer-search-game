@@ -3,8 +3,15 @@ const { onObjectiveClick } = require('../player-actions.js')
 const renderCurrentObjective = (currentObjectiveEl, objective) => {
   const newCurrentObjective = document.createElement(objective.element)
 
-  window.AFRAME.utils.entity
-    .setComponentProperty(newCurrentObjective, 'color', objective.color)
+  const objectiveProperties = {
+    color: objective.color,
+    objectiveId: objective.id,
+    position: '0 0 0.6'
+  }
+  Object.keys(objectiveProperties).forEach((key) => {
+    window.AFRAME.utils.entity
+      .setComponentProperty(newCurrentObjective, key, objectiveProperties[key])
+  })
 
   currentObjectiveEl.appendChild(newCurrentObjective)
 }

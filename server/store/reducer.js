@@ -24,7 +24,7 @@ const mainReducer = function (initState, actions$) {
         nodePositionId = availableNodes[Math.floor(Math.random() * availableNodes.length)]
 
         arr = []
-        while (arr.length < 3) {
+        while (arr.length < state.objectives.length) {
           var randomnumber = Math.ceil(Math.random() * state.objectives.length) - 1
           if (arr.indexOf(randomnumber) > -1) continue
           arr[arr.length] = randomnumber

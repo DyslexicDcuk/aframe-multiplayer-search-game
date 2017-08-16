@@ -3,9 +3,9 @@ const NODE_POSITIONS = [
   { x: -5, y: 0.5, z: -10 },
   { x: 5, y: 0.5, z: 10 },
   { x: -5, y: 0.5, z: 10 }
-].map((p, i) => Object.assign({}, p, {
+].map((p, i) => Object.assign({
   id: i,
-  position: p,
+  coordinates: p,
   isDisabled: false
 }))
 
