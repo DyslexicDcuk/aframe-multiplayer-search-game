@@ -25,7 +25,7 @@ const mainReducer = function (initState, actions$) {
 
         arr = []
         while (arr.length < 3) {
-          var randomnumber = Math.ceil(Math.random() * state.objectives.length)
+          var randomnumber = Math.ceil(Math.random() * state.objectives.length) - 1
           if (arr.indexOf(randomnumber) > -1) continue
           arr[arr.length] = randomnumber
         }
