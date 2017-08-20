@@ -54,6 +54,7 @@ io.on('connection', (socket) => {
 })
 
 app.use('/build', express.static(path.join(__dirname, '/../client/build')))
+app.use('/images', express.static(path.join(__dirname, '/../client/images')))
 app.get('/', function (req, res) {
   // eslint-disable-next-line
   res.sendFile(path.join(__dirname + '/../client/build/index.html'))
