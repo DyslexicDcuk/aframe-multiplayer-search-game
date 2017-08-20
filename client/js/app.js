@@ -21,6 +21,10 @@ window.addEventListener('load', () => {
 
   const socket = window.io('http://localhost:3000?playerId=' + PLAYER_ID)
 
+  window.getPosition = () => {
+    console.log(cameraEl.getAttribute('position'))
+  }
+
   socket.on('nodes', (nodes) => {
     clearChildElements(nodesEl)
     nodes.forEach((node) => {
