@@ -8,6 +8,9 @@ const { clearChildElements } = require('./utils/clear-child-elements')
 const { animateObjective } = require('./utils/animate-objective')
 const renderFunctions = require('./render-functions/index')
 
+// const API_URL = 'http://localhost:3000'
+const API_URL = 'http://192.168.0.15:3000'
+
 window.addEventListener('load', () => {
   // main elements
   const sceneEl = document.querySelector('a-scene')
@@ -19,7 +22,7 @@ window.addEventListener('load', () => {
   const objectivesEl = sceneEl.querySelector('#objectives')
   const currentObjectiveEl = sceneEl.querySelector('#currentObjective')
 
-  const socket = window.io('http://localhost:3000?playerId=' + PLAYER_ID)
+  const socket = window.io(API_URL + '?playerId=' + PLAYER_ID)
 
   window.getPosition = () => {
     console.log(cameraEl.getAttribute('position'))
@@ -66,10 +69,10 @@ window.addEventListener('load', () => {
     })
   })
 
-  setInterval(() => {
-    socket.emit('playerChangeOrientation', {
-      playerId: PLAYER_ID,
-      rotation: cameraEl.getAttribute('rotation')
-    })
-  }, 100)
+  // setInterval(() => {
+  //   socket.emit('playerChangeOrientation', {
+  //     playerId: PLAYER_ID,
+  //     rotation: cameraEl.getAttribute('rotation')
+  //   })
+  // }, 500)
 })
