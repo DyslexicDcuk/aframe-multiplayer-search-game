@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <script src="build/bundle.js"></script>
+<script src="build/bundle.js"></script>
 
 <a-scene>
   <a-assets>
@@ -26,12 +26,12 @@
     <a-mixin id="node" geometry="primitive: sphere; radius: 0.3" material="color: green"></a-mixin>
     <a-mixin id="ground" #src="groundTexture" geometry="primitive: cylinder; radius: 30; height: 0.1"></a-mixin>
 
-    <a-asset-item id="castle" src="images/level.bake.ply"></a-asset-item>
+    <a-asset-item id="level" src="images/level.bake.ply"></a-asset-item>
   </a-assets>
 
   <!-- player/camera -->
   <a-entity id="player">
-    <a-entity id="camera" position="0 1.8 0" camera look-controls wasd-controls>
+    <a-entity id="camera" position="0 1.8 0" camera look-controls>
       <a-entity
         position="0 0 -1"
         geometry="primitive: ring; radiusOuter: 0.02; radiusInner: 0.01; segmentsTheta: 32"
@@ -48,7 +48,6 @@
         ></a-animation>
       </a-entity>
     </a-entity>
-    </a-sphere>
   </a-entity>
 
   <!-- wrappers -->
@@ -66,7 +65,7 @@
   <a-cylinder id="ground" src="https://cdn.aframe.io/a-painter/images/floor.jpg" radius="37" height="0.1" position="0 -0.1 0"></a-cylinder>
   <a-sky id="background" src="#skyTexture" theta-length="90" radius="37" position="0 -0.1 0"></a-sky>
 
-  <a-entity ply-model="src: #castle" rotation="-90 0 0" position="0 -1 0"></a-entity>
+  <a-entity ply-model="src: #level" rotation="-90 0 0" position="0 -1 0"></a-entity>
 </a-scene>
 
 

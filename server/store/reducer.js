@@ -1,5 +1,3 @@
-// const Rx = require('rxjs/Rx')
-
 const { playerActions } = require('./actions')
 const { NODE_POSITIONS } = require('../assets/nodes')
 const { OBJECTIVES } = require('../assets/objectives')
@@ -116,52 +114,7 @@ const mainReducer = function (initState, actions$) {
   }, initState)
 }
 
-// const actions = {
-//   createPlayer: (id) => {
-//     const nodePositionNo = Math.floor(Math.random() * state.availableNodes)
-
-//     state.players = state.players.concat({
-//       id,
-//       orientation: null,
-//       position: state.availableNodes[nodePositionNo]
-//     })
-
-//     state.availableNodes = [
-//       ...state.availableNodes.slice(0, nodePositionNo),
-//       ...state.availableNodes.slice(nodePositionNo + 1, state.availableNodes.length)
-//     ]
-//   }
-// }
-
-// const playersReducer = function (initState, actions$) {
-//   return actions$.scan((state, action) => {
-//     switch (action.type) {
-//       case playerActions.CREATE:
-//         return state
-
-//       default:
-//         return state
-//     }
-//   }, initState)
-// }
-
-// const nodesReducer = function (initState, actions$) {
-//   return actions$.scan((state, action) => {
-//     switch (action.type) {
-//       case playerActions.CREATE:
-//         return Object.assign({}, state, {
-//           availableNodes: [Date.now()]
-//         })
-
-//       default:
-//         return state
-//     }
-//   }, initState)
-// }
-
 module.exports = {
   initialState,
   mainReducer
-  // playersReducer,
-  // nodesReducer
 }

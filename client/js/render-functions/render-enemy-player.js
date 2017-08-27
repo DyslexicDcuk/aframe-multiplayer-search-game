@@ -1,7 +1,7 @@
 export const renderEnemyPlayer = (playersEl, player) => {
   const oponent = document.createElement('a-entity')
   window.AFRAME.utils.entity
-    .setComponentProperty(oponent, 'position', player.position)
+    .setComponentProperty(oponent, 'position', player.position.coordinates)
 
   const body = document.createElement('a-cone')
   const bodyProps = {

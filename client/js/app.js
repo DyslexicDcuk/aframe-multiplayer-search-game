@@ -8,8 +8,8 @@ const { clearChildElements } = require('./utils/clear-child-elements')
 const { animateObjective } = require('./utils/animate-objective')
 const renderFunctions = require('./render-functions/index')
 
-// const API_URL = 'http://localhost:3000'
-const API_URL = 'http://192.168.0.15:3000'
+const API_URL = 'http://localhost:3000'
+// const API_URL = 'http://192.168.0.15:3000'
 
 window.addEventListener('load', () => {
   // main elements
@@ -69,10 +69,10 @@ window.addEventListener('load', () => {
     })
   })
 
-  // setInterval(() => {
-  //   socket.emit('playerChangeOrientation', {
-  //     playerId: PLAYER_ID,
-  //     rotation: cameraEl.getAttribute('rotation')
-  //   })
-  // }, 500)
+  setInterval(() => {
+    socket.emit('playerChangeOrientation', {
+      playerId: PLAYER_ID,
+      rotation: cameraEl.getAttribute('rotation')
+    })
+  }, 500)
 })

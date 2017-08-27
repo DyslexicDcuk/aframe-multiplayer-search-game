@@ -6,15 +6,6 @@ const actions$ = new Rx.Subject()
 const dispatch = (action) => actions$.next(action)
 
 const stateFn = function (initState, actions$) {
-  // const combine = (s) => ({
-  //   players: s[0],
-  //   nodes: s[1]
-  // })
-
-  // const appState$ = playersReducer(initState.players, actions$)
-  //   .zip(nodesReducer(initState.nodes, actions$))
-  //   .map(combine)
-
   const appState$ = mainReducer(initState, actions$)
 
   const state = new Rx.BehaviorSubject(initState)
