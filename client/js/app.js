@@ -8,7 +8,7 @@ const { clearChildElements } = require('./utils/clear-child-elements')
 const { animateObjective } = require('./utils/animate-objective')
 const renderFunctions = require('./render-functions/index')
 
-const API_URL = 'http://localhost:3000'
+const API_URL = 'http://192.168.43.240:3000'
 // const API_URL = 'http://192.168.0.15:3000'
 
 window.addEventListener('load', () => {
@@ -57,7 +57,9 @@ window.addEventListener('load', () => {
           renderFunctions.renderCurrentObjective(currentObjectiveEl, p.objectives[p.nextObjective])
         }
       } else {
-        renderFunctions.renderEnemyPlayer(playersEl, p)
+        if (p.position && p.position.coordinates) {
+          renderFunctions.renderEnemyPlayer(playersEl, p)
+        }
       }
     })
   })
